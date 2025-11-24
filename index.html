@@ -44,7 +44,6 @@
       cursor: pointer;
       color: #000;
       margin: 10px 0;
-      width: auto;
     }
     button:hover {
       background: #c77dff;
@@ -58,6 +57,7 @@
       padding: 20px;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      animation: fadeIn 0.4s ease;
     }
     .card img {
       max-width: 100%;
@@ -83,6 +83,12 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       display: none;
       font-size: 15px;
+      text-align: left;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     @media (max-width: 600px) {
       h1 { font-size: 22px; }
@@ -96,7 +102,7 @@
   <div class="overlay">
     <div class="flowers"></div>
     <h1>Приглашение на свадьбу 💍</h1>
-    <button onclick="openCard()">Открыть открытку</button>
+    <button onclick="toggleCard()">Открыть / Скрыть открытку</button>
     <button onclick="toggleContacts()">Контакты</button>
 
     <div class="card" id="weddingCard">
@@ -116,8 +122,9 @@
   </div>
 
   <script>
-    function openCard() {
-      document.getElementById('weddingCard').style.display = 'block';
+    function toggleCard() {
+      const card = document.getElementById('weddingCard');
+      card.style.display = card.style.display === 'block' ? 'none' : 'block';
     }
     function toggleContacts() {
       const box = document.getElementById('contactsBox');
