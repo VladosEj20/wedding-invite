@@ -9,48 +9,106 @@
     --primary:#7c4dff; --secondary:#b388ff; --card:#ffffff;
     --text:#2b2b2b; --muted:#777;
   }
+
+  /* Фон: градиент + встроенный бесшовный SVG-паттерн */
   body{
-    margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;
+    margin:0;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;
     background:
       linear-gradient(135deg,#f7e8ff 0%,#fff 100%),
-      url('img/pattern-peonies.png');
+      url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'>\
+  <rect width='240' height='240' fill='none'/>\
+  <!-- мягкие акварельные пятна -->\
+  <circle cx='60' cy='60' r='52' fill='rgba(255,235,240,0.6)'/>\
+  <circle cx='170' cy='80' r='44' fill='rgba(255,245,230,0.55)'/>\
+  <circle cx='120' cy='170' r='58' fill='rgba(235,245,255,0.55)'/>\
+  <!-- стилизованные пионы -->\
+  <g transform='translate(24,28)'>\
+    <path d='M40,26c18,0,32,14,32,32s-14,32-32,32S8,76,8,58 22,26,40,26z' fill='rgba(255,210,220,0.75)'/>\
+    <path d='M40,34c14,0,24,10,24,24s-10,24-24,24S16,72,16,58 26,34,40,34z' fill='rgba(255,185,195,0.65)'/>\
+    <circle cx='40' cy='58' r='6' fill='rgba(220,140,140,0.8)'/>\
+  </g>\
+  <g transform='translate(150,28)'>\
+    <path d='M40,26c18,0,32,14,32,32s-14,32-32,32S8,76,8,58 22,26,40,26z' fill='rgba(255,230,210,0.75)'/>\
+    <path d='M40,34c14,0,24,10,24,24s-10,24-24,24S16,72,16,58 26,34,40,34z' fill='rgba(255,205,175,0.65)'/>\
+    <circle cx='40' cy='58' r='6' fill='rgba(210,150,120,0.8)'/>\
+  </g>\
+  <!-- листья -->\
+  <path d='M30,140c24,-10,28,14,52,8c-10,12,-40,18,-52,8z' fill='rgba(175,200,180,0.6)'/>\
+  <path d='M180,150c-22,-12,-30,12,-52,6c12,12,42,18,52,6z' fill='rgba(160,190,175,0.55)'/>\
+</svg>");
     background-repeat: no-repeat, repeat;
     background-size: cover, 420px;
     background-attachment: fixed;
     color:var(--text);
   }
+  /* Если позже захочешь использовать свой файл: раскомментируй эту строку и закомментируй data URI выше */
+  /* body{ background: linear-gradient(135deg,#f7e8ff 0%,#fff 100%), url("img/pattern-peonies.png"); background-repeat:no-repeat,repeat; background-size:cover,420px; background-attachment:fixed; } */
 
   /* Навигация */
-  .navbar{ position:fixed; top:0; left:0; right:0; backdrop-filter:blur(10px); background:rgba(255,255,255,0.9); box-shadow:0 8px 20px rgba(0,0,0,0.08); z-index:1000; }
-  .nav-inner{ position:relative; max-width:980px; margin:0 auto; padding:10px 16px; display:flex; align-items:center; gap:12px; }
+  .navbar{
+    position:fixed; top:0; left:0; right:0;
+    backdrop-filter:blur(10px);
+    background:rgba(255,255,255,0.9);
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+    z-index:1000;
+  }
+  .nav-inner{
+    position:relative; max-width:980px; margin:0 auto;
+    padding:10px 16px; display:flex; align-items:center; gap:12px;
+  }
   .brand{ font-weight:700; color:var(--primary); margin-right:auto; }
   .tabs{ display:flex; gap:8px; }
-  .tab-btn{ border:none; background:transparent; color:var(--text); padding:8px 14px; border-radius:10px; cursor:pointer; transition:all .2s ease; }
+  .tab-btn{
+    border:none; background:transparent; color:var(--text);
+    padding:8px 14px; border-radius:10px; cursor:pointer;
+    transition:all .2s ease;
+  }
   .tab-btn:hover{ background:#efecff; }
-  .tab-btn.active{ background:var(--primary); color:#fff; box-shadow:0 6px 14px rgba(124,77,255,.25); }
+  .tab-btn.active{
+    background:var(--primary); color:#fff; box-shadow:0 6px 14px rgba(124,77,255,.25);
+  }
   .hamburger{ display:none; font-size:24px; background:none; border:none; cursor:pointer; color:var(--primary); }
 
   /* Контент */
   .wrap{ margin-top:84px; padding:24px; display:flex; justify-content:center; }
-  .card{ width:100%; max-width:900px; background:var(--card); border-radius:18px; box-shadow:0 12px 28px rgba(0,0,0,.08); padding:28px; }
+  .card{
+    width:100%; max-width:900px; background:var(--card);
+    border-radius:18px; box-shadow:0 12px 28px rgba(0,0,0,.08);
+    padding:28px;
+  }
   .tab-content{ display:none; opacity:0; transform:translateY(10px); }
   .tab-content.show{ display:block; animation:fadeIn .35s ease forwards; }
   @keyframes fadeIn{ to{ opacity:1; transform:translateY(0); } }
+
   h1{ text-align:center; font-size:28px; color:var(--primary); margin:0 0 8px; }
   h2{ text-align:center; font-size:22px; color:#5b2ca3; margin:0 0 14px; }
   .date{ text-align:center; font-weight:600; margin:10px 0 16px; }
   .text{ text-align:center; line-height:1.65; max-width:780px; margin:0 auto; }
 
   /* Фото на главной */
-  .hero-img.small{ display:block; margin:16px auto 0; border-radius:12px; box-shadow:0 8px 18px rgba(0,0,0,.10); max-width:60%; }
+  .hero-img.small{
+    display:block; margin:16px auto 0;
+    border-radius:12px; box-shadow:0 8px 18px rgba(0,0,0,.10);
+    max-width:60%;
+  }
 
   /* Карта и фото площадки */
   #map iframe{ width:100%; height:340px; display:block; border-radius:12px; }
   .map-buttons{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:12px; }
-  .map-link{ text-decoration:none; padding:10px 14px; border-radius:12px; background:#efecff; color:#3a2b55; transition:all .2s ease; }
+  .map-link{
+    text-decoration:none; padding:10px 14px; border-radius:12px;
+    background:#efecff; color:#3a2b55; transition:all .2s ease;
+  }
   .map-link:hover{ background:var(--secondary); color:#fff; }
-  .place-photos{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-top:14px; max-width:900px; margin-left:auto; margin-right:auto; }
-  .place-photos img{ width:100%; border-radius:12px; box-shadow:0 8px 18px rgba(0,0,0,.08); object-fit:cover; }
+  .place-photos{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:12px; margin-top:14px; max-width:900px; margin-left:auto; margin-right:auto;
+  }
+  .place-photos img{
+    width:100%; border-radius:12px; box-shadow:0 8px 18px rgba(0,0,0,.08); object-fit:cover;
+  }
 
   /* Формы */
   .form-row{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
@@ -59,8 +117,14 @@
   .note{ text-align:center; color:var(--muted); margin-top:8px; }
 
   /* Спонсоры */
-  .sponsors-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin:20px 0; }
-  .sponsors-grid img{ width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px; box-shadow:0 6px 14px rgba(0,0,0,.1); }
+  .sponsors-grid{
+    display:grid; grid-template-columns:repeat(4,1fr);
+    gap:16px; margin:20px 0;
+  }
+  .sponsors-grid img{
+    width:100%; aspect-ratio:1/1; object-fit:cover;
+    border-radius:12px; box-shadow:0 6px 14px rgba(0,0,0,.1);
+  }
   .thanks{ text-align:center; line-height:1.7; color:#444; margin-top:12px; }
 
   /* Мобильный режим */
@@ -118,7 +182,7 @@
         <p style="text-align:center;"><strong>Ирина:</strong> 📞 +7 984 199 29 40</p>
       </div>
 
-      <!-- Программа (подробно) -->
+      <!-- Программа -->
       <div id="schedule" class="tab-content" role="region" aria-label="Программа">
         <h2>Программа свадьбы</h2>
         <ul>
@@ -127,7 +191,7 @@
           <li><strong>17:00 — Welcome‑time:</strong> лёгкие закуски, знакомство гостей, интерактивы ведущего.</li>
           <li><strong>18:00 — Банкет:</strong> главное меню, тосты, выступления друзей и родителей.</li>
           <li><strong>19:30 — Первый танец:</strong> выход пары и танец, открытие танцпола.</li>
-          <li><strong>20:00 — Игры и конкурсы:</strong> весёлые активности, розыгрыши, музыкальные номера.</li>
+          <li><strong>20:00 — Игры и конкурсы:</strong> активности, розыгрыши, номера.</li>
           <li><strong>21:30 — Торт:</strong> подача торта, десерты, кофе‑брейк.</li>
           <li><strong>22:00 — Танцы и свободная программа:</strong> диджей‑сеты, фото и общение.</li>
         </ul>
@@ -179,7 +243,6 @@
           С глубокой благодарностью нашим родителям — маме и папе Влада, а также маме и папе Иры — за любовь, поддержку и участие в нашей жизни. Благодаря вам этот день стал возможен и наполнен теплом.
         </p>
       </div>
-
     </section>
   </main>
 
@@ -188,7 +251,10 @@
   const ANSWER_KEY = "rsvp_answered";
   if (localStorage.getItem(ANSWER_KEY) === null) localStorage.setItem(ANSWER_KEY, "false");
   window.addEventListener("beforeunload", (e) => {
-    if (localStorage.getItem(ANSWER_KEY) !== "true") { e.preventDefault(); e.returnValue = "Пожалуйста, ответьте на приглашение перед выходом."; }
+    if (localStorage.getItem(ANSWER_KEY) !== "true") {
+      e.preventDefault();
+      e.returnValue = "Пожалуйста, ответьте на приглашение перед выходом.";
+    }
   });
 
   // Навигация
@@ -226,13 +292,18 @@
     const choice = document.getElementById("guestChoice").value;
     if (!name){ alert("Пожалуйста, укажите ваше имя."); return; }
     localStorage.setItem(ANSWER_KEY, "true");
-    if (choice === "yes") window.location.href = "https://chat.whatsapp.com/B5qS0C1AihQKMeVerSVM27?mode=hqrt1";
-    else alert("Спасибо за ответ! Мы будем скучать 😔");
+    if (choice === "yes") {
+      window.location.href = "https://chat.whatsapp.com/B5qS0C1AihQKMeVerSVM27?mode=hqrt1";
+    } else {
+      alert("Спасибо за ответ! Мы будем скучать 😔");
+    }
   });
 
   // Синхронизация между вкладками
   window.addEventListener("storage", (e) => {
-    if (e.key === ANSWER_KEY && e.newValue === "true") console.log("RSVP получен в другой вкладке — блокировка снята.");
+    if (e.key === ANSWER_KEY && e.newValue === "true") {
+      console.log("RSVP получен в другой вкладке — блокировка снята.");
+    }
   });
 </script>
 </body>
