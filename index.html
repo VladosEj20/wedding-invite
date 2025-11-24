@@ -95,7 +95,7 @@ iframe.map{width:100%;height:340px;border:0;border-radius:14px;box-shadow:var(--
       <a class="tab-link" href="#contacts">Контакты</a>
       <a class="tab-link" href="#schedule">Программа</a>
       <a class="tab-link" href="#map">Карта</a>
-      <a class="tab-link" href="#rsvp">RSVP</a>
+      <a class="tab-link" href="#Ответ на приглашение">Ответ на приглашение</a>
       <a class="tab-link" href="#sponsors">Спонсоры</a>
     </div>
   </div>
@@ -156,10 +156,10 @@ iframe.map{width:100%;height:340px;border:0;border-radius:14px;box-shadow:var(--
     </div>
   </section>
 
-  <!-- RSVP -->
-  <section id="rsvp" role="region" aria-label="RSVP">
+  <!-- Ответ на приглашение -->
+  <section id="Ответ на приглашение" role="region" aria-label="Ответ на приглашение">
     <h2>Ответ на приглашение</h2>
-    <form id="rsvpForm">
+    <form id="Ответ на приглашениеForm">
       <div class="form-row">
         <input class="input" type="text" id="guestName" placeholder="Ваше имя" required/>
         <select class="select" id="guestChoice">
@@ -193,8 +193,8 @@ iframe.map{width:100%;height:340px;border:0;border-radius:14px;box-shadow:var(--
 </footer>
 
 <script>
-  // Блокировка выхода до RSVP
-  const ANSWER_KEY = "rsvp_answered";
+  // Блокировка выхода до Ответ на приглашение
+  const ANSWER_KEY = "Ответ на приглашение_answered";
   if (localStorage.getItem(ANSWER_KEY) === null) localStorage.setItem(ANSWER_KEY, "false");
   window.addEventListener("beforeunload", (e) => {
     if (localStorage.getItem(ANSWER_KEY) !== "true") {
@@ -259,8 +259,8 @@ iframe.map{width:100%;height:340px;border:0;border-radius:14px;box-shadow:var(--
     tabsBar.classList.toggle("open");
   });
 
-  // RSVP
-  const form = document.getElementById("rsvpForm");
+  // Ответ на приглашение
+  const form = document.getElementById("Ответ на приглашениеForm");
   form.addEventListener("submit", (ev) => {
     ev.preventDefault();
     const name = document.getElementById("guestName").value.trim();
@@ -277,7 +277,7 @@ iframe.map{width:100%;height:340px;border:0;border-radius:14px;box-shadow:var(--
   // Синхронизация между вкладками
   window.addEventListener("storage", (e) => {
     if (e.key === ANSWER_KEY && e.newValue === "true") {
-      console.log("RSVP получен в другой вкладке — блокировка снята.");
+      console.log("Ответ на приглашение получен в другой вкладке — блокировка снята.");
     }
   });
 </script>
