@@ -1,193 +1,234 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Свадебное приглашение</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Свадебное приглашение — Владислав и Ирина</title>
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: url('img/496Ujr568QtsoCUYLbkvs.jpeg') no-repeat center center fixed;
-      background-size: cover;
-      color: #333;
+    :root{
+      --primary:#7c4dff;
+      --secondary:#b388ff;
+      --bg:#f8f7fb;
+      --card:#ffffff;
+      --text:#2b2b2b;
+      --muted:#777;
     }
-    .overlay {
-      background: rgba(255, 255, 255, 0.9);
-      padding: 20px;
-      border-radius: 12px;
-      max-width: 800px;
-      margin: 40px auto;
-      position: relative;
-      box-shadow: 0 0 20px rgba(255, 192, 203, 0.6);
-      border: 3px solid #f8d4e4;
-      overflow: hidden;
+    /* Фон с градиентом */
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;
+      background:linear-gradient(135deg,#f7e8ff 0%,#e9f0ff 60%,#fff 100%);
+      color:var(--text);
     }
-    .flowers {
-      position: absolute;
-      top: -20px; left: -20px; right: -20px; bottom: -20px;
-      pointer-events: none;
-      background: url('img/flowers.png') no-repeat center center;
-      background-size: cover;
-      opacity: 0.3;
-      animation: float 10s ease-in-out infinite;
-    }
-    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
-
-    h1 { text-align: center; font-size: 28px; margin-bottom: 5px; }
-    h2 { text-align: center; font-size: 22px; margin-top: 0; color: #5b2ca3; }
 
     /* Навигация */
-    .tabs {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin: 20px 0;
-      gap: 10px;
+    .navbar{
+      position:fixed; top:0; left:0; right:0;
+      backdrop-filter:blur(10px);
+      background:rgba(255,255,255,0.85);
+      box-shadow:0 8px 20px rgba(0,0,0,0.08);
+      display:flex; align-items:center; justify-content:center;
+      gap:8px; padding:10px 16px; z-index:1000;
     }
-    .tabs button {
-      padding: 10px 18px;
-      font-size: 16px;
-      background: #e0aaff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      color: #000;
-      transition: transform 0.2s ease, background 0.2s ease, color 0.2s;
+    .nav-inner{
+      width:100%; max-width:980px; display:flex; align-items:center; gap:12px;
     }
-    .tabs button:hover { transform: translateY(-2px); background: #d6a0ff; }
-    .tabs button.active { background: #c77dff; color: #fff; transform: translateY(-2px); }
+    .brand{
+      font-weight:700; color:var(--primary); margin-right:auto; padding:8px 10px;
+    }
+    .tabs{
+      display:flex; gap:8px;
+    }
+    .tab-btn{
+      border:none; background:transparent; color:var(--text);
+      padding:8px 14px; border-radius:10px; cursor:pointer;
+      transition:all .2s ease;
+    }
+    .tab-btn:hover{ background:#efecff; }
+    .tab-btn.active{
+      background:var(--primary); color:#fff;
+      box-shadow:0 6px 14px rgba(124,77,255,.25);
+    }
 
-    /* Контент с анимацией */
-    .tab-content {
-      display: none;
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      opacity: 0;
-      transform: translateY(8px);
-      transition: opacity 300ms ease, transform 300ms ease;
+    /* Контейнер и карточка */
+    .wrap{
+      margin-top:84px; padding:24px;
+      display:flex; justify-content:center;
     }
-    .tab-content.show {
-      display: block;
-      opacity: 1;
-      transform: translateY(0);
+    .card{
+      width:100%; max-width:900px; background:var(--card);
+      border-radius:18px; box-shadow:0 12px 28px rgba(0,0,0,.08);
+      padding:28px; position:relative; overflow:hidden;
     }
-    .tab-content img { max-width: 100%; border-radius: 10px; margin-bottom: 10px; }
-    .date { font-size: 18px; font-weight: bold; margin-top: 10px; color: #5b2ca3; }
-    .text { margin-top: 10px; font-size: 16px; line-height: 1.6; }
+    /* Декоративный градиентный блик */
+    .card::before{
+      content:""; position:absolute; right:-60px; top:-60px;
+      width:220px; height:220px; border-radius:50%;
+      background:radial-gradient(circle at center, #e7dbff 0%, transparent 60%);
+      filter:blur(10px); opacity:.7; pointer-events:none;
+    }
+
+    /* Контент вкладок */
+    .tab-content{ display:none; opacity:0; transform:translateY(10px); }
+    .tab-content.show{ display:block; animation:fadeIn .35s ease forwards; }
+    @keyframes fadeIn{
+      to{ opacity:1; transform:translateY(0); }
+    }
+
+    /* Заголовки и текст */
+    h1{ margin:0 0 8px; font-size:28px; color:var(--primary); text-align:center; }
+    h2{ margin:0 0 14px; font-size:22px; color:#5b2ca3; text-align:center; }
+    .date{ text-align:center; font-weight:600; margin:10px 0 16px; }
+    .text{ text-align:center; line-height:1.65; }
+
+    /* Сетка для списка */
+    ul{ margin:12px auto; padding-left:18px; max-width:640px; }
+    li{ margin:8px 0; }
+
+    /* Изображения */
+    .hero-img{ width:100%; max-width:760px; display:block; margin:0 auto 12px;
+      border-radius:14px; box-shadow:0 10px 24px rgba(0,0,0,.12);
+    }
+    .place-photos{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; margin-top:14px; }
+    .place-photos img{ width:100%; border-radius:12px; box-shadow:0 8px 18px rgba(0,0,0,.08); }
 
     /* Кнопки карт */
-    .map-buttons {
-      margin-top: 15px;
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
+    .map-buttons{
+      display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:12px;
     }
-    .map-buttons a {
-      padding: 8px 14px;
-      background: #e0aaff;
-      border-radius: 8px;
-      text-decoration: none;
-      color: #000;
-      transition: background 0.2s ease, transform 0.2s ease, color 0.2s;
+    .map-link{
+      display:inline-flex; align-items:center; gap:8px;
+      text-decoration:none; padding:10px 14px; border-radius:12px;
+      background:#efecff; color:#3a2b55; transition:all .2s ease;
     }
-    .map-buttons a:hover { background: #c77dff; color: #fff; transform: translateY(-2px); }
+    .map-link:hover{ background:var(--secondary); color:#fff; box-shadow:0 8px 18px rgba(179,136,255,.25); }
 
-    @media (max-width: 600px) {
-      h1 { font-size: 22px; }
-      h2 { font-size: 18px; }
-      .date { font-size: 16px; }
-      .text { font-size: 14px; }
-      .tabs { flex-direction: column; }
-      .tabs button { width: 100%; }
+    /* Формы */
+    form input, form select, form button{
+      font:inherit;
+    }
+    .form-row{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+    .input, .select{
+      padding:10px 12px; border-radius:10px; border:1px solid #ddd; min-width:240px;
+      background:#fff; transition:border-color .2s ease, box-shadow .2s ease;
+    }
+    .input:focus, .select:focus{ outline:none; border-color:var(--primary); box-shadow:0 0 0 4px rgba(124,77,255,.12); }
+    .btn{
+      padding:10px 16px; border-radius:10px; border:none; cursor:pointer;
+      background:var(--primary); color:#fff; transition:transform .15s ease, box-shadow .2s ease;
+      box-shadow:0 8px 18px rgba(124,77,255,.25);
+    }
+    .btn:hover{ transform:translateY(-1px); }
+    .note{ text-align:center; color:var(--muted); margin-top:8px; }
+
+    /* Адаптивность */
+    @media (max-width:640px){
+      .brand{ display:none; }
+      .card{ padding:20px; }
+      .hero-img{ border-radius:12px; }
     }
   </style>
 </head>
 <body>
-  <div class="overlay">
-    <div class="flowers"></div>
-    <h1>Приглашение на свадьбу 💍</h1>
-    <h2>Владислав и Ирина</h2>
-
-    <!-- Навигация -->
-    <div class="tabs" id="tabs">
-      <button class="active" data-tab="invite">Приглашение</button>
-      <button data-tab="contacts">Контакты</button>
-      <button data-tab="schedule">Программа</button>
-      <button data-tab="map">Карта</button>
-      <button data-tab="rsvp">RSVP</button>
-    </div>
-
-    <!-- Вкладки -->
-    <div id="invite" class="tab-content show">
-      <img src="img/fRXqtpqwDT3nsj8i3vhcV.jpeg" alt="Фото пары" />
-      <div class="date">7 июня 2025 — Владивосток, шатёр «Орион»</div>
-      <div class="text">
-        Дорогие друзья!<br>
-        Мы с радостью приглашаем вас на нашу свадьбу, которая состоится в шатре «Орион» в городе Владивосток.<br>
-        Этот день станет началом новой главы нашей жизни, и мы будем счастливы разделить его с вами!
+  <!-- Навигация -->
+  <nav class="navbar" aria-label="Навигация">
+    <div class="nav-inner">
+      <div class="brand">Владислав & Ирина</div>
+      <div class="tabs" id="tabs">
+        <button class="tab-btn active" data-tab="invite">Приглашение</button>
+        <button class="tab-btn" data-tab="contacts">Контакты</button>
+        <button class="tab-btn" data-tab="schedule">Программа</button>
+        <button class="tab-btn" data-tab="map">Карта</button>
+        <button class="tab-btn" data-tab="rsvp">RSVP</button>
       </div>
     </div>
+  </nav>
 
-    <div id="contacts" class="tab-content">
-      <strong>Владислав:</strong> 📞 +7 963 839 47 72<br>
-      <strong>Ирина:</strong> 📞 +7 984 199 29 40
-    </div>
+  <!-- Контент -->
+  <main class="wrap">
+    <section class="card" id="card">
 
-    <div id="schedule" class="tab-content">
-      <h2>Программа свадьбы</h2>
-      <ul>
-        <li>15:00 — Сбор гостей</li>
-        <li>16:00 — Церемония</li>
-        <li>18:00 — Банкет</li>
-        <li>21:00 — Танцы</li>
-      </ul>
-    </div>
-
-    <div id="map" class="tab-content">
-      <h2>Как добраться</h2>
-      <iframe
-        src="https://yandex.ru/map-widget/v1/?um=constructor%3Aexample&ll=131.922,43.183&z=16&text=Владивосток%2C%20ул.%20Максимовича%2C%20310"
-        width="100%" height="400" frameborder="0" allowfullscreen>
-      </iframe>
-      <div class="map-buttons">
-        <a href="https://yandex.ru/maps/?text=Владивосток%2C%20ул.%20Максимовича%2C%20310" target="_blank" rel="noopener">Открыть в Яндекс.Картах</a>
-        <a href="https://2gis.ru/vladivostok/search/Владивосток%20Максимовича%20310" target="_blank" rel="noopener">Открыть в 2GIS</a>
+      <!-- Приглашение -->
+      <div id="invite" class="tab-content show" role="region" aria-label="Приглашение">
+        <h1>Приглашение на свадьбу 💍</h1>
+        <h2>Владислав и Ирина</h2>
+        <img class="hero-img" src="img/fRXqtpqwDT3nsj8i3vhcV.jpeg" alt="Фото пары"/>
+        <div class="date">7 июня 2025 — Владивосток, шатёр «Орион»</div>
+        <p class="text">
+          Дорогие друзья! Мы с радостью приглашаем вас на нашу свадьбу в шатре «Орион» в городе Владивосток.
+          Этот день станет началом новой главы нашей жизни, и мы будем счастливы разделить его с вами!
+        </p>
       </div>
-      <h2>Фото свадебного места</h2>
-      <img src="img/photo1.jpg" alt="Фото 1" />
-      <img src="img/photo2.jpg" alt="Фото 2" />
-    </div>
 
-    <div id="rsvp" class="tab-content">
-      <h2>Ответ на приглашение</h2>
-      <form id="rsvpForm">
-        <input type="text" id="guestName" placeholder="Ваше имя" required /><br><br>
-        <select id="guestChoice">
-          <option value="yes">Приду 🎉</option>
-          <option value="no">Не смогу 😔</option>
-        </select><br><br>
-        <button type="submit">Отправить</button>
-      </form>
-      <p style="margin-top:10px; font-size:14px; color:#666;">
-        Пожалуйста, ответьте на приглашение — иначе сайт попросит остаться.
-      </p>
-    </div>
-  </div>
+      <!-- Контакты -->
+      <div id="contacts" class="tab-content" role="region" aria-label="Контакты">
+        <h2>Контакты</h2>
+        <p style="text-align:center;"><strong>Владислав:</strong> 📞 +7 963 839 47 72</p>
+        <p style="text-align:center;"><strong>Ирина:</strong> 📞 +7 984 199 29 40</p>
+      </div>
+
+      <!-- Программа -->
+      <div id="schedule" class="tab-content" role="region" aria-label="Программа">
+        <h2>Программа свадьбы</h2>
+        <ul>
+          <li>15:00 — Сбор гостей</li>
+          <li>16:00 — Церемония</li>
+          <li>18:00 — Банкет</li>
+          <li>21:00 — Танцы</li>
+        </ul>
+      </div>
+
+      <!-- Карта -->
+      <div id="map" class="tab-content" role="region" aria-label="Карта">
+        <h2>Как добраться</h2>
+        <iframe
+          title="Яндекс.Карты — Владивосток, ул. Максимовича, 310"
+          src="https://yandex.ru/map-widget/v1/?um=constructor%3Aexample&ll=131.922,43.183&z=16&text=Владивосток%2C%20ул.%20Максимовича%2C%20310"
+          width="100%" height="340" frameborder="0" allowfullscreen>
+        </iframe>
+        <div class="map-buttons">
+          <a class="map-link" href="https://yandex.ru/maps/?text=Владивосток%2C%20ул.%20Максимовича%2C%20310" target="_blank" rel="noopener">
+            Открыть в Яндекс.Картах
+          </a>
+          <a class="map-link" href="https://2gis.ru/vladivostok/search/Владивосток%20Максимовича%20310" target="_blank" rel="noopener">
+            Открыть в 2GIS
+          </a>
+        </div>
+        <div class="place-photos">
+          <img src="img/photo1.jpg" alt="Фото площадки 1"/>
+          <img src="img/photo2.jpg" alt="Фото площадки 2"/>
+        </div>
+      </div>
+
+      <!-- RSVP -->
+      <div id="rsvp" class="tab-content" role="region" aria-label="RSVP">
+        <h2>Ответ на приглашение</h2>
+        <form id="rsvpForm" autocomplete="on">
+          <div class="form-row">
+            <input class="input" type="text" id="guestName" placeholder="Ваше имя" required/>
+            <select class="select" id="guestChoice" aria-label="Ваш ответ">
+              <option value="yes">Приду 🎉</option>
+              <option value="no">Не смогу 😔</option>
+            </select>
+            <button class="btn" type="submit">Отправить</button>
+          </div>
+        </form>
+        <p class="note">Пожалуйста, ответьте на приглашение — иначе сайт попросит остаться.</p>
+      </div>
+
+    </section>
+  </main>
 
   <script>
-    // Ключ для localStorage
+    // Ключ для локального флага ответа (общий для всех вкладок/окон в одном домене)
     const ANSWER_KEY = "rsvp_answered";
 
-    // Инициализация блокировки: если флага нет — считаем, что ответа нет.
+    // Инициализация флага: если отсутствует — считаем, что ответа нет.
     if (localStorage.getItem(ANSWER_KEY) === null) {
       localStorage.setItem(ANSWER_KEY, "false");
     }
 
-    // Блокировка выхода во всех вкладках до ответа
+    // Блокировка выхода во всех вкладках, пока нет ответа
     window.addEventListener("beforeunload", (e) => {
       if (localStorage.getItem(ANSWER_KEY) !== "true") {
         e.preventDefault();
@@ -195,27 +236,33 @@
       }
     });
 
-    // Переключение вкладок (делегирование кликов)
-    const tabsBar = document.getElementById('tabs');
-    const contents = Array.from(document.querySelectorAll('.tab-content'));
-    const tabButtons = Array.from(tabsBar.querySelectorAll('button'));
+    // Навигация по вкладкам (делегирование)
+    const tabsBar = document.getElementById("tabs");
+    const buttons = Array.from(tabsBar.querySelectorAll(".tab-btn"));
+    const panes   = Array.from(document.querySelectorAll(".tab-content"));
 
-    function showTab(id) {
-      contents.forEach(c => c.classList.toggle('show', c.id === id));
-      tabButtons.forEach(b => b.classList.toggle('active', b.dataset.tab === id));
+    function showTab(id){
+      panes.forEach(p => p.classList.toggle("show", p.id === id));
+      buttons.forEach(b => b.classList.toggle("active", b.dataset.tab === id));
     }
-
-    tabsBar.addEventListener('click', (e) => {
-      const btn = e.target.closest('button[data-tab]');
+    tabsBar.addEventListener("click", (e) => {
+      const btn = e.target.closest(".tab-btn");
       if (!btn) return;
       showTab(btn.dataset.tab);
     });
 
-    // RSVP обработка
-    document.getElementById('rsvpForm').addEventListener('submit', (event) => {
-      event.preventDefault();
-      const name = document.getElementById('guestName').value.trim();
-      const choice = document.getElementById('guestChoice').value;
+    // Инициализация активной вкладки (на случай перезагрузки)
+    document.addEventListener("DOMContentLoaded", () => {
+      const active = buttons.find(b => b.classList.contains("active")) || buttons[0];
+      showTab(active.dataset.tab);
+    });
+
+    // Обработка RSVP
+    const form = document.getElementById("rsvpForm");
+    form.addEventListener("submit", (ev) => {
+      ev.preventDefault();
+      const name = document.getElementById("guestName").value.trim();
+      const choice = document.getElementById("guestChoice").value;
 
       if (!name) {
         alert("Пожалуйста, укажите ваше имя.");
@@ -226,6 +273,7 @@
       localStorage.setItem(ANSWER_KEY, "true");
 
       if (choice === "yes") {
+        // Перенаправление в WhatsApp
         window.location.href = "https://chat.whatsapp.com/B5qS0C1AihQKMeVerSVM27?mode=hqrt1";
       } else {
         alert("Спасибо за ответ! Мы будем скучать 😔");
@@ -234,17 +282,12 @@
       console.log("Гость:", name, "Ответ:", choice);
     });
 
-    // Синхронизация между вкладками (если ответили в другой вкладке)
-    window.addEventListener('storage', (e) => {
+    // Синхронизация между вкладками (если ответили в другой)
+    window.addEventListener("storage", (e) => {
       if (e.key === ANSWER_KEY && e.newValue === "true") {
+        // здесь можно дополнительно визуально показать, что блокировка снята
         console.log("RSVP получен в другой вкладке — блокировка снята.");
       }
-    });
-
-    // Инициализация активной вкладки на случай перезагрузки
-    document.addEventListener('DOMContentLoaded', () => {
-      const activeBtn = tabButtons.find(b => b.classList.contains('active')) || tabButtons[0];
-      showTab(activeBtn.dataset.tab);
     });
   </script>
 </body>
