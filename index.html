@@ -193,25 +193,31 @@ iframe.map{width:100%;height:340px;border:0;border-radius:14px;box-shadow:var(--
 </footer>
 
 <script>
-  // Мобильное меню
-  const hamburger = document.getElementById('hamburger');
-  const tabs = document.getElementById('tabs');
-  if (hamburger) {
-    hamburger.addEventListener('click', () => tabs.classList.toggle('open'));
-  }
-  tabs.addEventListener('click', (e) => {
-    const link = e.target.closest('a.tab-link');
-    if (!link) return;
-    if (window.matchMedia('(max-width: 640px)').matches) tabs.classList.remove('open');
+  // Блокировка выхода до RSVP
+  const ANSWER_KEY = "rsvp_answered";
+  if (localStorage.getItem(ANSWER_KEY) === null) localStorage.setItem(ANSWER_KEY, "false");
+  window.addEventListener("beforeunload", (e) => {
+    if (localStorage.getItem(ANSWER_KEY) !== "true") {
+      e.preventDefault();
+      e.returnValue = "Пожалуйста, ответьте на приглашение перед выходом.";
+    }
   });
 
-  // Таймер: надёжный локальный формат (июнь = 5)
+  //Таймер
   const countdownEl = document.getElementById('countdown');
-  const weddingDate = new Date(2026, 5, 7, 15, 0, 0); // 07.06.2026 15:00
+
+  // Берём ближайший 7 июня
+  const now = new Date();
+  let year = now.getFullYear();
+  const weddingDate = new Date(year, 5, 7, 15, 0, 0);
+  if (weddingDate < now) {
+    // если дата уже прошла в этом году — берём следующий год
+    weddingDate.setFullYear(year + 1);
+  }
+
   function pad(n){ return n.toString().padStart(2,'0'); }
   function updateCountdown(){
-    const now = new Date();
-    const diff = weddingDate.getTime() - now.getTime();
+    const diff = weddingDate.getTime() - new Date().getTime();
     if (diff <= 0) {
       countdownEl.textContent = "Свадьба уже началась 🎉";
       return;
@@ -223,29 +229,56 @@ iframe.map{width:100%;height:340px;border:0;border-radius:14px;box-shadow:var(--
     countdownEl.innerHTML =
       `<span>${days} дн</span> <span>${pad(hours)} ч</span> <span>${pad(minutes)} мин</span> <span>${pad(seconds)} сек</span>`;
   }
-  document.addEventListener('DOMContentLoaded', () => {
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // Навигация
+  const tabsBar = document.getElementById("tabs");
+  const buttons = Array.from(tabsBar.querySelectorAll(".tab-btn"));
+  const panes   = Array.from(document.querySelectorAll(".tab-content"));
+  const hamburger = document.getElementById("hamburger");
+
+  function showTab(id){
+    panes.forEach(p => p.classList.toggle("show", p.id === id));
+    buttons.forEach(b => b.classList.toggle("active", b.dataset.tab === id));
+  }
+
+  tabsBar.addEventListener("click", (e) => {
+    const btn = e.target.closest(".tab-btn");
+    if (!btn) return;
+    showTab(btn.dataset.tab);
+    if (window.matchMedia("(max-width: 640px)").matches) tabsBar.classList.remove("open");
   });
 
-  // Если фото пары отсутствует — включить безопасный фон
-  (function ensureHeroBackground(){
-    const hero = document.querySelector('.hero');
-    const testImg = new Image();
-    testImg.src = 'img/hero-couple.jpg';
-    testImg.onload = () => { /* фото найдено */ };
-    testImg.onerror = () => { hero.classList.add('no-photo'); };
-  })();
+  document.addEventListener("DOMContentLoaded", () => {
+    const active = buttons.find(b => b.classList.contains("active")) || buttons[0];
+    showTab(active.dataset.tab);
+  });
 
-  // RSVP: базовая обработка
-  document.getElementById('rsvpForm').addEventListener('submit', (ev) => {
+  hamburger.addEventListener("click", () => {
+    tabsBar.classList.toggle("open");
+  });
+
+  // RSVP
+  const form = document.getElementById("rsvpForm");
+  form.addEventListener("submit", (ev) => {
     ev.preventDefault();
-    const name = document.getElementById('guestName').value.trim();
-    const choice = document.getElementById('guestChoice').value;
-    if (!name) { alert('Пожалуйста, укажите ваше имя.'); return; }
-    alert(choice === 'yes'
-      ? `Спасибо, ${name}! Мы рады, что вы будете с нами 🎉`
-      : `Спасибо, ${name}. Будем скучать 😔`);
+    const name = document.getElementById("guestName").value.trim();
+    const choice = document.getElementById("guestChoice").value;
+    if (!name){ alert("Пожалуйста, укажите ваше имя."); return; }
+    localStorage.setItem(ANSWER_KEY, "true");
+    if (choice === "yes") {
+      window.location.href = "https://chat.whatsapp.com/B5qS0C1AihQKMeVerSVM27?mode=hqrt1";
+    } else {
+      alert("Спасибо за ответ! Мы будем скучать 😔");
+    }
+  });
+
+  // Синхронизация между вкладками
+  window.addEventListener("storage", (e) => {
+    if (e.key === ANSWER_KEY && e.newValue === "true") {
+      console.log("RSVP получен в другой вкладке — блокировка снята.");
+    }
   });
 </script>
 </body>
