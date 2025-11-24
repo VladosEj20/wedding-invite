@@ -10,16 +10,14 @@
       font-family: 'Segoe UI', sans-serif;
       background: url('img/496Ujr568QtsoCUYLbkvs.jpeg') no-repeat center center fixed;
       background-size: cover;
-      padding: 20px;
       color: #333;
     }
     .overlay {
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.9);
       padding: 20px;
       border-radius: 12px;
-      max-width: 600px;
-      width: 95%;
-      margin: 0 auto;
+      max-width: 800px;
+      margin: 40px auto;
       position: relative;
       box-shadow: 0 0 20px rgba(255, 192, 203, 0.6);
       border: 3px solid #f8d4e4;
@@ -33,35 +31,54 @@
       pointer-events: none;
       background: url('img/flowers.png') no-repeat center center;
       background-size: cover;
-      opacity: 0.4;
+      opacity: 0.3;
     }
-    button {
-      padding: 12px 20px;
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
+    h2 {
+      text-align: center;
+      font-size: 22px;
+      margin-top: 0;
+      color: #5b2ca3;
+    }
+    /* Навигация */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 20px 0;
+      gap: 10px;
+    }
+    .tabs button {
+      padding: 10px 18px;
       font-size: 16px;
       background: #e0aaff;
       border: none;
       border-radius: 6px;
       cursor: pointer;
       color: #000;
-      margin: 10px 0;
+      transition: 0.3s;
     }
-    button:hover {
+    .tabs button:hover, .tabs button.active {
       background: #c77dff;
       color: #fff;
     }
-    .card {
+    /* Контент */
+    .tab-content {
       display: none;
-      margin-top: 20px;
       background: #fff;
-      color: #333;
       padding: 20px;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       animation: fadeIn 0.4s ease;
     }
-    .card img {
+    .tab-content img {
       max-width: 100%;
       border-radius: 10px;
+      margin-bottom: 10px;
     }
     .date {
       font-size: 18px;
@@ -74,27 +91,17 @@
       font-size: 16px;
       line-height: 1.6;
     }
-    .contacts-box {
-      margin-top: 15px;
-      background: rgba(255,255,255,0.95);
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      display: none;
-      font-size: 15px;
-      text-align: left;
-      animation: fadeIn 0.4s ease;
-    }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-10px); }
       to { opacity: 1; transform: translateY(0); }
     }
     @media (max-width: 600px) {
       h1 { font-size: 22px; }
+      h2 { font-size: 18px; }
       .date { font-size: 16px; }
       .text { font-size: 14px; }
-      button { width: 100%; }
+      .tabs { flex-direction: column; }
+      .tabs button { width: 100%; }
     }
   </style>
 </head>
@@ -102,10 +109,20 @@
   <div class="overlay">
     <div class="flowers"></div>
     <h1>Приглашение на свадьбу 💍</h1>
-    <button onclick="toggleCard()">Открыть приглашение</button>
-    <button onclick="toggleContacts()">Контакты</button>
+    <h2>Владислав и Ирина</h2>
 
-    <div class="card" id="weddingCard">
+    <!-- Навигация -->
+    <div class="tabs">
+      <button class="active" onclick="openTab('invite', event)">Приглашение</button>
+      <button onclick="openTab('contacts', event)">Контакты</button>
+      <button onclick="openTab('schedule', event)">Программа</button>
+      <button onclick="openTab('map', event)">Карта</button>
+      <button onclick="openTab('gallery', event)">Галерея</button>
+      <button onclick="openTab('rsvp', event)">RSVP</button>
+    </div>
+
+    <!-- Вкладки -->
+    <div id="invite" class="tab-content" style="display:block;">
       <img src="img/fRXqtpqwDT3nsj8i3vhcV.jpeg" alt="Фото пары" />
       <div class="date">7 июня 2025 — Владивосток, шатёр «Орион»</div>
       <div class="text">
@@ -115,22 +132,74 @@
       </div>
     </div>
 
-    <div class="contacts-box" id="contactsBox">
-      <strong>Владислав:</strong> +7 963 839 47 72<br>
-      <strong>Ирина:</strong> +7 984 199 29 40
+    <div id="contacts" class="tab-content">
+      <strong>Владислав:</strong> 📞 +7 963 839 47 72<br>
+      <strong>Ирина:</strong> 📞 +7 984 199 29 40
+    </div>
+
+    <div id="schedule" class="tab-content">
+      <h2>Программа свадьбы</h2>
+      <ul>
+        <li>15:00 — Сбор гостей</li>
+        <li>16:00 — Церемония</li>
+        <li>18:00 — Банкет</li>
+        <li>21:00 — Танцы</li>
+      </ul>
+    </div>
+
+    <div id="map" class="tab-content">
+  <h2>Как добраться</h2>
+  <iframe 
+    src="https://yandex.ru/map-widget/v1/?um=constructor%3Aexample&ll=131.922,43.183&z=16&text=Владивосток%2C%20ул.%20Максимовича%2C%20310" 
+    width="100%" height="400" frameborder="0" allowfullscreen>
+  </iframe>
+	</div>
+
+
+    <div id="gallery" class="tab-content">
+      <h2>Фото</h2>
+      <img src="img/photo1.jpeg" alt="Фото 1" />
+      <img src="img/photo2.jpeg" alt="Фото 2" />
+    </div>
+
+    <div id="rsvp" class="tab-content">
+      <h2>Ответ на приглашение</h2>
+      <form onsubmit="handleRSVP(event)">
+        <input type="text" id="guestName" placeholder="Ваше имя" required /><br><br>
+        <select id="guestChoice">
+          <option value="yes">Приду 🎉</option>
+          <option value="no">Не смогу 😔</option>
+        </select><br><br>
+        <button type="submit">Отправить</button>
+      </form>
     </div>
   </div>
 
   <script>
-    function toggleCard() {
-      const card = document.getElementById('weddingCard');
-      card.style.display = card.style.display === 'block' ? 'none' : 'block';
+    function openTab(tabId, evt) {
+      const tabs = document.querySelectorAll('.tab-content');
+      const buttons = document.querySelectorAll('.tabs button');
+      tabs.forEach(t => t.style.display = 'none');
+      buttons.forEach(b => b.classList.remove('active'));
+      document.getElementById(tabId).style.display = 'block';
+      evt.target.classList.add('active');
     }
-    function toggleContacts() {
-      const box = document.getElementById('contactsBox');
-      box.style.display = box.style.display === 'block' ? 'none' : 'block';
+
+    function handleRSVP(event) {
+      event.preventDefault();
+      const name = document.getElementById('guestName').value;
+      const choice = document.getElementById('guestChoice').value;
+
+      if (choice === "yes") {
+        // Перенаправление в WhatsApp
+        window.location.href = "https://chat.whatsapp.com/B5qS0C1AihQKMeVerSVM27?mode=hqrt1";
+      } else {
+        alert("Спасибо за ответ! Мы будем скучать 😔");
+      }
+
+      // Здесь можно интегрировать отправку данных на сервер/Google Form
+      console.log("Гость:", name, "Ответ:", choice);
     }
   </script>
 </body>
 </html>
-
