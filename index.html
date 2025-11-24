@@ -18,25 +18,22 @@
       padding: 20px;
       border-radius: 12px;
       max-width: 600px;
+      width: 95%;
       margin: 0 auto;
       position: relative;
       box-shadow: 0 0 20px rgba(255, 192, 203, 0.6);
       border: 3px solid #f8d4e4;
-      transition: box-shadow 0.5s ease;
-    }
-    .overlay:hover {
-      box-shadow: 0 0 30px rgba(255, 182, 193, 0.9);
     }
     .flowers {
       position: absolute;
-      top: -30px;
-      left: -30px;
-      right: -30px;
-      bottom: -30px;
+      top: -20px;
+      left: -20px;
+      right: -20px;
+      bottom: -20px;
       pointer-events: none;
       background: url('img/flowers.png') no-repeat center center;
-      background-size: contain;
-      opacity: 0.6;
+      background-size: cover;
+      opacity: 0.4;
     }
     button {
       padding: 12px 20px;
@@ -46,7 +43,8 @@
       border-radius: 6px;
       cursor: pointer;
       color: #000;
-      margin: 10px;
+      margin: 10px 0;
+      width: auto;
     }
     button:hover {
       background: #c77dff;
@@ -76,16 +74,8 @@
       font-size: 16px;
       line-height: 1.6;
     }
-    .contacts-toggle {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 10;
-    }
     .contacts-box {
-      position: fixed;
-      top: 60px;
-      right: 20px;
+      margin-top: 15px;
       background: rgba(255,255,255,0.95);
       border: 1px solid #ccc;
       border-radius: 10px;
@@ -95,35 +85,19 @@
       font-size: 15px;
     }
     @media (max-width: 600px) {
-      .overlay, .card, .contacts-box {
-        padding: 15px;
-      }
-      button {
-        width: 100%;
-      }
-      .contacts-toggle {
-        right: 10px;
-      }
-      .contacts-box {
-        right: 10px;
-        width: 90%;
-      }
+      h1 { font-size: 22px; }
+      .date { font-size: 16px; }
+      .text { font-size: 14px; }
+      button { width: 100%; }
     }
   </style>
 </head>
 <body>
-  <div class="contacts-toggle">
-    <button onclick="toggleContacts()">Контакты</button>
-  </div>
-  <div class="contacts-box" id="contactsBox">
-    <strong>Владислав:</strong> +7 963 839 47 72<br>
-    <strong>Ирина:</strong> +7 984 199 29 40
-  </div>
-
   <div class="overlay">
     <div class="flowers"></div>
     <h1>Приглашение на свадьбу 💍</h1>
     <button onclick="openCard()">Открыть открытку</button>
+    <button onclick="toggleContacts()">Контакты</button>
 
     <div class="card" id="weddingCard">
       <img src="img/fRXqtpqwDT3nsj8i3vhcV.jpeg" alt="Фото пары" />
@@ -133,6 +107,11 @@
         Мы с радостью приглашаем вас на нашу свадьбу, которая состоится в шатре «Орион» в городе Владивосток.<br>
         Этот день станет началом новой главы нашей жизни, и мы будем счастливы разделить его с вами!
       </div>
+    </div>
+
+    <div class="contacts-box" id="contactsBox">
+      <strong>Владислав:</strong> +7 963 839 47 72<br>
+      <strong>Ирина:</strong> +7 984 199 29 40
     </div>
   </div>
 
