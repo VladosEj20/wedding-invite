@@ -1,132 +1,97 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Свадебное приглашение — Владислав и Ирина</title>
-  <style>
-    :root{
-      --primary:#7c4dff;
-      --secondary:#b388ff;
-      --bg:#f8f7fb;
-      --card:#ffffff;
-      --text:#2b2b2b;
-      --muted:#777;
-    }
-    body{
-      margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;
-      background:linear-gradient(135deg,#f7e8ff 0%,#e9f0ff 60%,#fff 100%);
-      color:var(--text);
-    }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Свадебное приглашение — Владислав и Ирина</title>
+<style>
+  :root{
+    --primary:#7c4dff; --secondary:#b388ff; --card:#ffffff;
+    --text:#2b2b2b; --muted:#777;
+  }
+  body{
+    margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;
+    background:
+      linear-gradient(135deg,#f7e8ff 0%,#fff 100%),
+      url('img/pattern-peonies.png');
+    background-repeat: no-repeat, repeat;
+    background-size: cover, 420px;
+    background-attachment: fixed;
+    color:var(--text);
+  }
 
-    /* Навигация */
-    .navbar{
-      position:fixed; top:0; left:0; right:0;
-      backdrop-filter:blur(10px);
-      background:rgba(255,255,255,0.9);
-      box-shadow:0 8px 20px rgba(0,0,0,0.08);
-      z-index:1000;
-      /* важно: относительное позиционирование — якорь для выпадающего меню */
-      position:fixed;
-    }
-    .nav-inner{
-      max-width:980px; margin:0 auto;
-      display:flex; align-items:center; gap:12px;
-      padding:10px 16px;
-      position:relative;
-    }
-    .brand{ font-weight:700; color:var(--primary); margin-right:auto; }
+  /* Навигация */
+  .navbar{ position:fixed; top:0; left:0; right:0; backdrop-filter:blur(10px); background:rgba(255,255,255,0.9); box-shadow:0 8px 20px rgba(0,0,0,0.08); z-index:1000; }
+  .nav-inner{ position:relative; max-width:980px; margin:0 auto; padding:10px 16px; display:flex; align-items:center; gap:12px; }
+  .brand{ font-weight:700; color:var(--primary); margin-right:auto; }
+  .tabs{ display:flex; gap:8px; }
+  .tab-btn{ border:none; background:transparent; color:var(--text); padding:8px 14px; border-radius:10px; cursor:pointer; transition:all .2s ease; }
+  .tab-btn:hover{ background:#efecff; }
+  .tab-btn.active{ background:var(--primary); color:#fff; box-shadow:0 6px 14px rgba(124,77,255,.25); }
+  .hamburger{ display:none; font-size:24px; background:none; border:none; cursor:pointer; color:var(--primary); }
 
+  /* Контент */
+  .wrap{ margin-top:84px; padding:24px; display:flex; justify-content:center; }
+  .card{ width:100%; max-width:900px; background:var(--card); border-radius:18px; box-shadow:0 12px 28px rgba(0,0,0,.08); padding:28px; }
+  .tab-content{ display:none; opacity:0; transform:translateY(10px); }
+  .tab-content.show{ display:block; animation:fadeIn .35s ease forwards; }
+  @keyframes fadeIn{ to{ opacity:1; transform:translateY(0); } }
+  h1{ text-align:center; font-size:28px; color:var(--primary); margin:0 0 8px; }
+  h2{ text-align:center; font-size:22px; color:#5b2ca3; margin:0 0 14px; }
+  .date{ text-align:center; font-weight:600; margin:10px 0 16px; }
+  .text{ text-align:center; line-height:1.65; max-width:780px; margin:0 auto; }
+
+  /* Фото на главной */
+  .hero-img.small{ display:block; margin:16px auto 0; border-radius:12px; box-shadow:0 8px 18px rgba(0,0,0,.10); max-width:60%; }
+
+  /* Карта и фото площадки */
+  #map iframe{ width:100%; height:340px; display:block; border-radius:12px; }
+  .map-buttons{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:12px; }
+  .map-link{ text-decoration:none; padding:10px 14px; border-radius:12px; background:#efecff; color:#3a2b55; transition:all .2s ease; }
+  .map-link:hover{ background:var(--secondary); color:#fff; }
+  .place-photos{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-top:14px; max-width:900px; margin-left:auto; margin-right:auto; }
+  .place-photos img{ width:100%; border-radius:12px; box-shadow:0 8px 18px rgba(0,0,0,.08); object-fit:cover; }
+
+  /* Формы */
+  .form-row{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+  .input,.select{ padding:10px 12px; border-radius:10px; border:1px solid #ddd; min-width:240px; background:#fff; }
+  .btn{ padding:10px 16px; border-radius:10px; border:none; cursor:pointer; background:var(--primary); color:#fff; }
+  .note{ text-align:center; color:var(--muted); margin-top:8px; }
+
+  /* Спонсоры */
+  .sponsors-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin:20px 0; }
+  .sponsors-grid img{ width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px; box-shadow:0 6px 14px rgba(0,0,0,.1); }
+  .thanks{ text-align:center; line-height:1.7; color:#444; margin-top:12px; }
+
+  /* Мобильный режим */
+  @media (max-width:640px){
+    .hamburger{ display:block; margin-left:auto; }
     .tabs{
-      display:flex; gap:8px;
+      position:absolute; top:100%; left:0; right:0;
+      flex-direction:column; background:#fff; box-shadow:0 8px 20px rgba(0,0,0,.15);
+      border-radius:0 0 12px 12px; max-height:0; overflow:hidden; transition:max-height .3s ease;
     }
-    .tab-btn{
-      border:none; background:transparent; color:var(--text);
-      padding:8px 14px; border-radius:10px; cursor:pointer;
-      transition:all .2s ease;
-    }
-    .tab-btn:hover{ background:#efecff; }
-    .tab-btn.active{
-      background:var(--primary); color:#fff;
-      box-shadow:0 6px 14px rgba(124,77,255,.25);
-    }
-
-    /* Кнопка гамбургер */
-    .hamburger{
-      display:none; font-size:24px; background:none; border:none;
-      cursor:pointer; color:var(--primary);
-    }
-
-    /* Контент */
-    .wrap{ margin-top:84px; padding:24px; display:flex; justify-content:center; }
-    .card{
-      width:100%; max-width:900px; background:var(--card);
-      border-radius:18px; box-shadow:0 12px 28px rgba(0,0,0,.08);
-      padding:28px; position:relative;
-    }
-    .tab-content{ display:none; opacity:0; transform:translateY(10px); }
-    .tab-content.show{ display:block; animation:fadeIn .35s ease forwards; }
-    @keyframes fadeIn{ to{ opacity:1; transform:translateY(0); } }
-
-    h1{ text-align:center; font-size:28px; color:var(--primary); margin:0 0 8px; }
-    h2{ text-align:center; font-size:22px; color:#5b2ca3; margin:0 0 14px; }
-    .date{ text-align:center; font-weight:600; margin:10px 0 16px; }
-    .text{ text-align:center; line-height:1.65; max-width:780px; margin:0 auto; }
-
-    .hero-img.small{
-      display:block; margin:16px auto 0;
-      border-radius:12px; box-shadow:0 8px 18px rgba(0,0,0,.10);
-      max-width:60%;
-    }
-
-    .map-buttons{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:12px; }
-    .map-link{
-      text-decoration:none; padding:10px 14px; border-radius:12px;
-      background:#efecff; color:#3a2b55; transition:all .2s ease;
-    }
-    .map-link:hover{ background:var(--secondary); color:#fff; }
-
-    .form-row{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
-    .input,.select{
-      padding:10px 12px; border-radius:10px; border:1px solid #ddd; min-width:240px;
-      background:#fff;
-    }
-    .btn{
-      padding:10px 16px; border-radius:10px; border:none; cursor:pointer;
-      background:var(--primary); color:#fff;
-    }
-    .note{ text-align:center; color:var(--muted); margin-top:8px; }
-
-    /* Мобильный режим */
-    @media (max-width:640px){
-      .hamburger{ display:block; margin-left:auto; }
-      .tabs{
-        position:absolute; top:100%; left:0; right:0;
-        flex-direction:column; background:#fff;
-        box-shadow:0 8px 20px rgba(0,0,0,.15);
-        border-radius:0 0 12px 12px;
-        max-height:0; overflow:hidden;
-        transition:max-height 0.3s ease;
-      }
-      .tabs.open{ max-height:320px; }
-      .tab-btn{ width:100%; text-align:left; padding:12px 16px; }
-      .hero-img.small{ max-width:80%; }
-    }
-  </style>
+    .tabs.open{ max-height:340px; }
+    .tab-btn{ width:100%; text-align:left; padding:12px 16px; }
+    .hero-img.small{ max-width:80%; }
+    #map iframe{ height:280px; }
+    .sponsors-grid{ grid-template-columns:repeat(2,1fr); }
+  }
+</style>
 </head>
 <body>
   <!-- Навигация -->
   <nav class="navbar" aria-label="Навигация">
     <div class="nav-inner">
       <div class="brand">Владислав & Ирина</div>
-      <button class="hamburger" id="hamburger" aria-label="Открыть меню">&#9776;</button>
-      <div class="tabs" id="tabs" aria-label="Вкладки сайта">
+      <button class="hamburger" id="hamburger" aria-label="Меню">&#9776;</button>
+      <div class="tabs" id="tabs" aria-label="Вкладки">
         <button class="tab-btn active" data-tab="invite">Приглашение</button>
         <button class="tab-btn" data-tab="contacts">Контакты</button>
         <button class="tab-btn" data-tab="schedule">Программа</button>
         <button class="tab-btn" data-tab="map">Карта</button>
-        <button class="tab-btn" data-tab="Опрос по согласию">Опрос по согласию</button>
+        <button class="tab-btn" data-tab="rsvp">RSVP</button>
+        <button class="tab-btn" data-tab="sponsors">Спонсоры</button>
       </div>
     </div>
   </nav>
@@ -143,7 +108,7 @@
           Дорогие друзья! Мы с радостью приглашаем вас на нашу свадьбу в шатре «Орион» в городе Владивосток.
           Этот день станет началом новой главы нашей жизни, и мы будем счастливы разделить его с вами!
         </p>
-        <img class="hero-img small" src="img/fRXqtpqwDT3nsj8i3vhcV.jpg" alt="Фото пары"/>
+        <img class="hero-img small" src="img/fRXqtpqwDT3nsj8i3vhcV.jpeg" alt="Фото пары"/>
       </div>
 
       <!-- Контакты -->
@@ -153,14 +118,18 @@
         <p style="text-align:center;"><strong>Ирина:</strong> 📞 +7 984 199 29 40</p>
       </div>
 
-      <!-- Программа -->
+      <!-- Программа (подробно) -->
       <div id="schedule" class="tab-content" role="region" aria-label="Программа">
         <h2>Программа свадьбы</h2>
         <ul>
-          <li>15:00 — Сбор гостей</li>
-          <li>16:00 — Церемония</li>
-          <li>18:00 — Банкет</li>
-          <li>21:00 — Танцы</li>
+          <li><strong>15:00 — Сбор гостей:</strong> приветственные напитки, фотозона, рассадка.</li>
+          <li><strong>16:00 — Церемония:</strong> торжественная клятва, обмен кольцами, общая фотография.</li>
+          <li><strong>17:00 — Welcome‑time:</strong> лёгкие закуски, знакомство гостей, интерактивы ведущего.</li>
+          <li><strong>18:00 — Банкет:</strong> главное меню, тосты, выступления друзей и родителей.</li>
+          <li><strong>19:30 — Первый танец:</strong> выход пары и танец, открытие танцпола.</li>
+          <li><strong>20:00 — Игры и конкурсы:</strong> весёлые активности, розыгрыши, музыкальные номера.</li>
+          <li><strong>21:30 — Торт:</strong> подача торта, десерты, кофе‑брейк.</li>
+          <li><strong>22:00 — Танцы и свободная программа:</strong> диджей‑сеты, фото и общение.</li>
         </ul>
       </div>
 
@@ -170,15 +139,10 @@
         <iframe
           title="Яндекс.Карты — Владивосток, ул. Максимовича, 310"
           src="https://yandex.ru/map-widget/v1/?um=constructor%3Aexample&ll=131.922,43.183&z=16&text=Владивосток%2C%20ул.%20Максимовича%2C%20310"
-          width="100%" height="340" frameborder="0" allowfullscreen>
-        </iframe>
+          frameborder="0" allowfullscreen></iframe>
         <div class="map-buttons">
-          <a class="map-link" href="https://yandex.ru/maps/?text=Владивосток%2C%20ул.%20Максимовича%2C%20310" target="_blank" rel="noopener">
-            Открыть в Яндекс.Картах
-          </a>
-          <a class="map-link" href="https://2gis.ru/vladivostok/search/Владивосток%20Максимовича%20310" target="_blank" rel="noopener">
-            Открыть в 2GIS
-          </a>
+          <a class="map-link" href="https://yandex.ru/maps/?text=Владивосток%2C%20ул.%20Максимовича%2C%20310" target="_blank" rel="noopener">Открыть в Яндекс.Картах</a>
+          <a class="map-link" href="https://2gis.ru/vladivostok/search/Владивосток%20Максимовича%20310" target="_blank" rel="noopener">Открыть в 2GIS</a>
         </div>
         <div class="place-photos">
           <img src="img/photo1.jpg" alt="Фото площадки 1"/>
@@ -186,10 +150,10 @@
         </div>
       </div>
 
-      <!-- Опрос по согласию -->
-      <div id="Опрос по согласию" class="tab-content" role="region" aria-label="Опрос по согласию">
+      <!-- RSVP -->
+      <div id="rsvp" class="tab-content" role="region" aria-label="RSVP">
         <h2>Ответ на приглашение</h2>
-        <form id="Опрос по согласиюForm" autocomplete="on">
+        <form id="rsvpForm" autocomplete="on">
           <div class="form-row">
             <input class="input" type="text" id="guestName" placeholder="Ваше имя" required/>
             <select class="select" id="guestChoice" aria-label="Ваш ответ">
@@ -202,89 +166,74 @@
         <p class="note">Пожалуйста, ответьте на приглашение — иначе сайт попросит остаться.</p>
       </div>
 
+      <!-- Спонсоры -->
+      <div id="sponsors" class="tab-content" role="region" aria-label="Спонсоры">
+        <h2>Спонсоры</h2>
+        <div class="sponsors-grid">
+          <img src="img/sponsor1.jpg" alt="Мама Влада"/>
+          <img src="img/sponsor2.jpg" alt="Папа Влада"/>
+          <img src="img/sponsor3.jpg" alt="Мама Иры"/>
+          <img src="img/sponsor4.jpg" alt="Папа Иры"/>
+        </div>
+        <p class="thanks">
+          С глубокой благодарностью нашим родителям — маме и папе Влада, а также маме и папе Иры — за любовь, поддержку и участие в нашей жизни. Благодаря вам этот день стал возможен и наполнен теплом.
+        </p>
+      </div>
+
     </section>
   </main>
 
-  <script>
-    // Общий флаг для всех вкладок
-    const ANSWER_KEY = "Опрос по согласию_answered";
+<script>
+  // Блокировка выхода до RSVP
+  const ANSWER_KEY = "rsvp_answered";
+  if (localStorage.getItem(ANSWER_KEY) === null) localStorage.setItem(ANSWER_KEY, "false");
+  window.addEventListener("beforeunload", (e) => {
+    if (localStorage.getItem(ANSWER_KEY) !== "true") { e.preventDefault(); e.returnValue = "Пожалуйста, ответьте на приглашение перед выходом."; }
+  });
 
-    // Инициализация флага (если отсутствует)
-    if (localStorage.getItem(ANSWER_KEY) === null) {
-      localStorage.setItem(ANSWER_KEY, "false");
-    }
+  // Навигация
+  const tabsBar = document.getElementById("tabs");
+  const buttons = Array.from(tabsBar.querySelectorAll(".tab-btn"));
+  const panes   = Array.from(document.querySelectorAll(".tab-content"));
+  const hamburger = document.getElementById("hamburger");
 
-    // Блокировка выхода до ответа
-    window.addEventListener("beforeunload", (e) => {
-      if (localStorage.getItem(ANSWER_KEY) !== "true") {
-        e.preventDefault();
-        e.returnValue = "Пожалуйста, ответьте на приглашение перед выходом.";
-      }
-    });
+  function showTab(id){
+    panes.forEach(p => p.classList.toggle("show", p.id === id));
+    buttons.forEach(b => b.classList.toggle("active", b.dataset.tab === id));
+  }
 
-    // Навигация по вкладкам
-    const tabsBar = document.getElementById("tabs");
-    const buttons = Array.from(tabsBar.querySelectorAll(".tab-btn"));
-    const panes   = Array.from(document.querySelectorAll(".tab-content"));
-    const hamburger = document.getElementById("hamburger");
+  tabsBar.addEventListener("click", (e) => {
+    const btn = e.target.closest(".tab-btn");
+    if (!btn) return;
+    showTab(btn.dataset.tab);
+    if (window.matchMedia("(max-width: 640px)").matches) tabsBar.classList.remove("open");
+  });
 
-    function showTab(id){
-      panes.forEach(p => p.classList.toggle("show", p.id === id));
-      buttons.forEach(b => b.classList.toggle("active", b.dataset.tab === id));
-    }
+  document.addEventListener("DOMContentLoaded", () => {
+    const active = buttons.find(b => b.classList.contains("active")) || buttons[0];
+    showTab(active.dataset.tab);
+  });
 
-    // Делегирование кликов по вкладкам
-    tabsBar.addEventListener("click", (e) => {
-      const btn = e.target.closest(".tab-btn");
-      if (!btn) return;
-      showTab(btn.dataset.tab);
-      // Закрываем мобильное меню после выбора пункта
-      if (window.matchMedia("(max-width: 640px)").matches) {
-        tabsBar.classList.remove("open");
-      }
-    });
+  hamburger.addEventListener("click", () => {
+    tabsBar.classList.toggle("open");
+  });
 
-    // Инициализация активной вкладки
-    document.addEventListener("DOMContentLoaded", () => {
-      const active = buttons.find(b => b.classList.contains("active")) || buttons[0];
-      showTab(active.dataset.tab);
-    });
+  // RSVP
+  const form = document.getElementById("rsvpForm");
+  form.addEventListener("submit", (ev) => {
+    ev.preventDefault();
+    const name = document.getElementById("guestName").value.trim();
+    const choice = document.getElementById("guestChoice").value;
+    if (!name){ alert("Пожалуйста, укажите ваше имя."); return; }
+    localStorage.setItem(ANSWER_KEY, "true");
+    if (choice === "yes") window.location.href = "https://chat.whatsapp.com/B5qS0C1AihQKMeVerSVM27?mode=hqrt1";
+    else alert("Спасибо за ответ! Мы будем скучать 😔");
+  });
 
-    // Гамбургер: открыть/закрыть меню
-    hamburger.addEventListener("click", () => {
-      tabsBar.classList.toggle("open");
-    });
-
-    // Обработка Опрос по согласию
-    const form = document.getElementById("Опрос по согласиюForm");
-    form.addEventListener("submit", (ev) => {
-      ev.preventDefault();
-      const name = document.getElementById("guestName").value.trim();
-      const choice = document.getElementById("guestChoice").value;
-
-      if (!name) {
-        alert("Пожалуйста, укажите ваше имя.");
-        return;
-      }
-
-      // Снимаем блокировку для всех вкладок
-      localStorage.setItem(ANSWER_KEY, "true");
-
-      if (choice === "yes") {
-        window.location.href = "https://chat.whatsapp.com/B5qS0C1AihQKMeVerSVM27?mode=hqrt1";
-      } else {
-        alert("Спасибо за ответ! Мы будем скучать 😔");
-      }
-
-      console.log("Гость:", name, "Ответ:", choice);
-    });
-
-    // Синхронизация между вкладками
-    window.addEventListener("storage", (e) => {
-      if (e.key === ANSWER_KEY && e.newValue === "true") {
-        console.log("Опрос по согласию получен в другой вкладке — блокировка снята.");
-      }
-    });
-  </script>
+  // Синхронизация между вкладками
+  window.addEventListener("storage", (e) => {
+    if (e.key === ANSWER_KEY && e.newValue === "true") console.log("RSVP получен в другой вкладке — блокировка снята.");
+  });
+</script>
 </body>
 </html>
